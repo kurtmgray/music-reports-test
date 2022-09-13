@@ -6,15 +6,22 @@ import Form from "./Form";
 import { getData } from "../Utils";
 
 export default function Page() {
-  const { filters, APIData, setAPIData, error, setError } =
+  const { filters, setFilters, APIData, setAPIData, error, setError } =
     useContext(FilterContext);
   const params = useParams();
 
   useEffect(() => {
-    initPage();
-  }, [params.pageID]);
+    setPageData();
+  }, [filters[params.pageID]["s"]]);
+  // want to access this s property, but not the data property in dep array
+  // reason to split this into two separate pieces of state?
+  // APIData: {
+  //   1: null,
+  //   2: null
+  // }
+  // initially APIData: {null}
 
-  const initPage = () => {
+  const setPageData = () => {
     setError("");
     getData(filters, params.pageID).then((data) => {
       setTimeout(() => {
@@ -22,17 +29,28 @@ export default function Page() {
           setError("Artist not found.");
         }
       }, 3000);
-      setAPIData(data);
+      setFilters((old) => {
+        return {
+          ...old,
+          [params.pageID]: {
+            ...old[params.pageID],
+            data: data,
+          },
+        };
+      });
     });
   };
 
   return (
-    <div>
-      Page {params.pageID}
+    <div className="page">
+      <h1>
+        Page {params.pageID}: {filters[params.pageID]["s"]} Albums
+      </h1>
+
       <div>
         <Form />
       </div>
-      {!APIData ? (
+      {!filters[params.pageID]["data"] ? (
         error ? (
           <div>{error}</div>
         ) : (

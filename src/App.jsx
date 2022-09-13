@@ -3,11 +3,12 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { FilterContext } from "./FilterContext";
 import Page from "./components/Page";
+import Home from "./components/Home";
 
 function App() {
   const [filters, setFilters] = useState({
-    1: { s: "Daft Punk" },
-    2: { s: "Nirvana" },
+    1: { s: "Daft Punk", data: null },
+    2: { s: "Nirvana", data: null },
   });
   const [APIData, setAPIData] = useState(null);
   const [error, setError] = useState(null);
@@ -39,9 +40,8 @@ function App() {
           }}
         >
           <Routes>
-            <Route path="/" element={<div>Home</div>} />
+            <Route path="/" element={<Home />} />
             <Route path="/:pageID" element={<Page />} />
-            {/* <Route path="/2" element={<PageTwo />} /> */}
           </Routes>
         </FilterContext.Provider>
       </div>
