@@ -3,9 +3,8 @@ import { useParams } from "react-router-dom";
 import { FilterContext } from "../FilterContext";
 
 export default function Table() {
-  const { filters, setFilters, APIData } = useContext(FilterContext);
+  const { data, filters } = useContext(FilterContext);
   const params = useParams();
-
   return (
     <div className="list-container">
       <table className="list">
@@ -26,8 +25,8 @@ export default function Table() {
           </tr>
         </thead>
         <tbody>
-          {filters[params.pageID]["data"] !== null &&
-            filters[params.pageID]["data"].map((album) => (
+          {data[filters[params.pageID]] !== null &&
+            data[filters[params.pageID]].map((album) => (
               <tr scope="row" key={album.idAlbum}>
                 <td className="list-entry">{album.strArtist}</td>
                 <td className="list-entry">

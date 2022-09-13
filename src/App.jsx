@@ -7,10 +7,10 @@ import Home from "./components/Home";
 
 function App() {
   const [filters, setFilters] = useState({
-    1: { s: "Daft Punk", data: null },
-    2: { s: "Nirvana", data: null },
+    1: "Daft Punk",
+    2: "Madonna",
   });
-  const [APIData, setAPIData] = useState(null);
+  const [data, setData] = useState({});
   const [error, setError] = useState(null);
 
   return (
@@ -33,8 +33,8 @@ function App() {
           value={{
             filters,
             setFilters,
-            APIData,
-            setAPIData,
+            data,
+            setData,
             error,
             setError,
           }}

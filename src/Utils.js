@@ -1,15 +1,12 @@
-import * as qs from "query-string";
+import { AUDIODB_API_KEY } from "./config";
 
-export const getData = async (filters, activePage) => {
-  const searchFilter = filters[activePage];
-  const filterQueryString = qs.stringify(searchFilter);
-
-  const url = `https://theaudiodb.p.rapidapi.com/searchalbum.php?${filterQueryString}`;
+export const getData = async (searchTerm) => {
+  const url = `https://theaudiodb.p.rapidapi.com/searchalbum.php?s=${searchTerm}`;
 
   const options = {
     method: "GET",
     headers: {
-      "X-RapidAPI-Key": "d282546f9dmshe334206720dd64fp103e8cjsn470d765f1e21",
+      "X-RapidAPI-Key": AUDIODB_API_KEY,
       "X-RapidAPI-Host": "theaudiodb.p.rapidapi.com",
     },
   };

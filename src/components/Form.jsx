@@ -1,11 +1,9 @@
 import React, { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FilterContext } from "../FilterContext";
-import { getData } from "../Utils";
 
 export default function Form() {
-  const { filters, setFilters, setAPIData, setError } =
-    useContext(FilterContext);
+  const { filters, setFilters, setError } = useContext(FilterContext);
   const [value, setValue] = useState("");
   const params = useParams();
 
@@ -15,24 +13,13 @@ export default function Form() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // this is initPage, but need to clean.
     setFilters((old) => {
       return {
         ...old,
-        [params.pageID]: { s: value },
+        [params.pageID]: value,
       };
     });
     setError("");
-    //   .then(
-    //     getData(filters, params.pageID).then((data) => {
-    //       setTimeout(() => {
-    //         if (!data) {
-    //           setError("Artist not found...");
-    //         }
-    //       }, 3000);
-    //       setAPIData(data);
-    //     })
-    //  );
     setValue("");
   };
 
@@ -41,7 +28,7 @@ export default function Form() {
       <label htmlFor="artist-search">Enter Artist:</label>
       <input
         type="text"
-        placeholder={filters[params.pageID]["s"]}
+        placeholder={filters[params.pageID]}
         value={value}
         onChange={(e) => handleChange(e)}
       />

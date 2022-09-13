@@ -6,51 +6,41 @@ import Form from "./Form";
 import { getData } from "../Utils";
 
 export default function Page() {
-  const { filters, setFilters, APIData, setAPIData, error, setError } =
-    useContext(FilterContext);
+  const { filters, data, setData, error, setError } = useContext(FilterContext);
   const params = useParams();
-
-  useEffect(() => {
-    setPageData();
-  }, [filters[params.pageID]["s"]]);
-  // want to access this s property, but not the data property in dep array
-  // reason to split this into two separate pieces of state?
-  // APIData: {
-  //   1: null,
-  //   2: null
-  // }
-  // initially APIData: {null}
 
   const setPageData = () => {
     setError("");
-    getData(filters, params.pageID).then((data) => {
-      setTimeout(() => {
-        if (!data) {
-          setError("Artist not found.");
-        }
-      }, 3000);
-      setFilters((old) => {
+
+    getData(filters[params.pageID]).then((data) => {
+      if (!data) {
+        setError("Artist not found.");
+      }
+      setData((old) => {
         return {
           ...old,
-          [params.pageID]: {
-            ...old[params.pageID],
-            data: data,
-          },
+          [filters[params.pageID]]: data,
         };
       });
     });
   };
 
+  useEffect(() => {
+    if (!data[filters[params.pageID]]) {
+      setPageData();
+    }
+  }, [filters, params.pageID]);
+
   return (
     <div className="page">
       <h1>
-        Page {params.pageID}: {filters[params.pageID]["s"]} Albums
+        Page {params.pageID}: {filters[params.pageID]} Albums
       </h1>
 
       <div>
         <Form />
       </div>
-      {!filters[params.pageID]["data"] ? (
+      {!data[filters[params.pageID]] ? (
         error ? (
           <div>{error}</div>
         ) : (
