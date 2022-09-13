@@ -1,13 +1,16 @@
 # Instructions
 
-Install dependencies
+### Install dependencies
+
 $ npm install
 
-Paste API KEY into src/config.js
+### Paste API KEY into src/config.js
+
 Replace empty string AUDIODB_API_KEY with supplied key.
 Key can be found in the email containing the link to this repository.
 
-Run application
+### Run application
+
 $ npm start
 
 # Notes
